@@ -1,0 +1,41 @@
+class CLI_local : public CLI{
+ protected:
+  void perform(){
+     if (!strcmp(args[0], "ping"))
+        Serial.println("pong");
+     else if (!strcmp(args[0], "usec")){
+        global_state.boosters[0].use_c = true;
+        Serial.println("flag use_c for 1 is set");
+     }   
+     else if (!strcmp(args[0], "usee")){
+        global_state.boosters[0].use_e = true;
+        Serial.println("flag use_e for 1 is set");
+     }         
+     else if (!strcmp(args[0], "useph")){
+        global_state.boosters[0].use_ph = true;
+        Serial.println("flag use_ph for 1 is set");
+     }         
+     else if (!strcmp(args[0], "start")){
+        send_start();
+        Serial.println("sending start");
+     }         
+     
+     else if (!strcmp(args[0], "finish")){
+        Serial.println("sending finish");
+        send_finish();     
+     }
+     else if (!strcmp(args[0], "ready")){
+        Serial.println("sending ready");
+        send_ready();     
+     }     
+  
+  }
+};
+
+CLI_local cli;
+
+
+void handleCli(){
+  while (Serial.available())
+    cli.feed(Serial.read());
+}
